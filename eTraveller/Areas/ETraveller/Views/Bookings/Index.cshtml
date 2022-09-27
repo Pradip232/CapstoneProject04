@@ -1,0 +1,40 @@
+﻿@model IEnumerable<eTraveller.Models.Booking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Bookings</h1>
+
+<p>
+    <button class=" btn btn-primary" asp-action="Create">New Booking</button>
+</p>
+
+<div class="card-columns">
+    @foreach (var booking in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                Booking Id: @booking.BookingId
+                
+            </div>
+            <div class="card-body">
+                @Html.DisplayNameFor(modelItem => booking.Location.LocationName) : @booking.Location.LocationName
+                <br />
+                @Html.DisplayNameFor(modelItem => booking.Vehicle.VehicleName) : @booking.Vehicle.VehicleName
+                <br>
+                Total Price : @{
+                    var Cost = (booking.Location.Distance * booking.Vehicle.CostPerKm) + booking.Vehicle.Maintainance;
+                }
+                @Cost
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@booking.BookingId">Edit</a>
+                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@booking.BookingId">Booking Details</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@booking.BookingId">Delete</a>
+            </div>
+        </div>
+
+    }
+</div>
+<a asp-area="eTraveller" asp-controller="Locations" asp-action="Index">List of Locations</a>
