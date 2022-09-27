@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 using System;
+using eTraveller.ValidationTest;
 
 namespace eTraveller.Models
 {
@@ -13,6 +14,7 @@ namespace eTraveller.Models
         public Int32 BookingId { get; set; }
 
         [Display(Name = "Booking Date")]
+        [ValidationOneMonth]
         [Required]
         public DateTime BookingDate { get; set; }
 

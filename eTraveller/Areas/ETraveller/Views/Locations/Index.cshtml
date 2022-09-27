@@ -3,49 +3,90 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+@section BodyStyle{
 <style>
-    body{
-        background-image:url('~/wwwroot/img/Zz0zZTliMjQ4MzhlNGExMWViYmJiMjFiZTI2ZWNmN2MzZA==.jpg');
+    body {
+            background-image: url('https://www.freeppt7.com/uploads/190910/1-1Z910195U2F8.JPG');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        
     }
 </style>
-<body>
-<div class="bg-light " style="hight:100%">
-    <h1>Locations</h1>
+}
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
+<h1>Locations</h1>
+
+<p>
+        <button type="button" class="btn btn-success" asp-action="Create">Add new location</button>
+</p>
+ <div class=" card-columns">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-map-marker" style="font-size:36px"></i>
+                Location Id: @item.LocationId
+
+            </div>
+            <div class="card-body">
+                @Html.DisplayNameFor(modelItem => item.LocationName) : @item.LocationName
+                <br />
+                @Html.DisplayNameFor(modelItem => item.Distance) : @item.Distance
+                <br/>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.LocationId">Edit</a>
+                
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
+            </div>
+        </div>
+    }
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+@*
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Distance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.LocationName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Distance)
-                </th>
-                <th></th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Distance)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LocationId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.LocationId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Distance)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.LocationId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.LocationId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
-</div>
-</body>
+
+*@

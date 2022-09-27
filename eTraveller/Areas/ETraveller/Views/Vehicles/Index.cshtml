@@ -3,11 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
+@section BodyStyle{
+<style>
+    body {
+            background-image: url('https://www.freeppt7.com/uploads/190910/1-1Z910195K0P7.JPG');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        
+    }
+</style>
+}
 
-<h1>Index</h1>
 
+<h1>Available Vehicle</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-success" asp-action="Create">Add new vehicle</a>
 </p>
 <table class="table">
     <thead>

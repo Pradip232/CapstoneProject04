@@ -1,8 +1,10 @@
 using eTraveller.Data;
+using eTraveller.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +63,9 @@ namespace eTraveller
                 option.Cookie.HttpOnly = true;
                 option.Cookie.Name = "MyAuthCookie";
             });
+
+            //Register the EmailSender Service For Dependancy Injection
+            services.AddSingleton<IEmailSender, MyEmailSenderService>();
 
         }
 
