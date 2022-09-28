@@ -1,5 +1,19 @@
 ﻿@model IEnumerable<eTraveller.Models.Vehicle>
-
+@using Microsoft.AspNetCore.Identity
+@using eTraveller.Models.Enums
+@*To find the user is logged in*@
+@inject SignInManager<IdentityUser> _loginUserStatus
+@*Get the user properties*@
+@inject UserManager<IdentityUser> _userManager
+@{
+    bool isLoggedIn = _loginUserStatus.IsSignedIn(this.User);
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.SysAdmin.ToString());
+    }
+}
 @{
     ViewData["Title"] = "Index";
 }
@@ -47,11 +61,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Maintainance)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
-            </td>
+            @if(isUserAdmin)
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+                </td>
+            }
+
         </tr>
 }
     </tbody>

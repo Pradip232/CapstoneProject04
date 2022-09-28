@@ -107,8 +107,9 @@ namespace eTraveller
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
             ApplicationDbContextSeed.SeedIdentityRolesAsync(roleManager).Wait();
+            ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
+
         }
     }
 }

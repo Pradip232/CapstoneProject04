@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace eTraveller.Areas.ETraveller.Controllers
 {
     [Area("ETraveller")]
+    [Authorize]
     public class ShowBookingController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

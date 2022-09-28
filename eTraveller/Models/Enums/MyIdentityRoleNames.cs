@@ -3,6 +3,6 @@
     public enum MyIdentityRoleNames
     {
         SysAdmin,
-        SysUser,
+        SysUser
     }
 }

@@ -1,4 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using eTraveller.Models.Enums
+
+@*To find the user is logged in*@
+@inject SignInManager<IdentityUser> _loginUserStatus
+@*Get the user properties*@
+@inject UserManager<IdentityUser> _userManager
+@{
+    bool isLoggedIn = _loginUserStatus.IsSignedIn(this.User);
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.SysAdmin.ToString());
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -47,28 +64,35 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> Admin</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="ETraveller" asp-controller="Locations" asp-action="Index"> Custome Locations</a>
-                                <a class="dropdown-item" asp-area="ETraveller" asp-controller="Vehicles" asp-action="Index"> Custome Vehicles</a>
-                                <a class="dropdown-item" asp-area="ETraveller" asp-controller="Bookings" asp-action="Index"> Bookings</a>
-                                <a class="dropdown-item" asp-area="ETraveller" asp-controller="ShowBooking" asp-action="Index"> Location wise Bookings</a>
+                        @if (isLoggedIn)
+                        {
+                            @if (isUserAdmin)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> Admin</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" asp-area="ETraveller" asp-controller="Locations" asp-action="Index"> Custome Locations</a>
+                                        <a class="dropdown-item" asp-area="ETraveller" asp-controller="Vehicles" asp-action="Index"> Custome Vehicles</a>
+                                        <a class="dropdown-item" asp-area="ETraveller" asp-controller="Bookings" asp-action="Index"> Bookings</a>
+                                        <a class="dropdown-item" asp-area="ETraveller" asp-controller="ShowBooking" asp-action="Index"> Location wise Bookings</a>
 
-                            </div>
+                                    </div>
 
-                        </li>
+                                </li>
+                            }
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> User</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="eTraveller" asp-controller="Locations" asp-action="Index"> Available Locations </a>
-                                <a class="dropdown-item" asp-area="eTraveller" asp-controller="Bookings" asp-action="Create"> New booking</a>
-                                <a class="dropdown-item" asp-area="eTraveller" asp-controller="Passengers" asp-action="Create"> Registration</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> User</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" asp-area="eTraveller" asp-controller="Locations" asp-action="Index"> Available Locations </a>
+                                    <a class="dropdown-item" asp-area="eTraveller" asp-controller="Bookings" asp-action="Create"> New booking</a>
+                                    <a class="dropdown-item" asp-area="eTraveller" asp-controller="Passengers" asp-action="Create"> Registration</a>
 
-                            </div>
+                                </div>
 
-                        </li>
+                            </li>
+                        }
+
                     </ul>
                     
                 </div>

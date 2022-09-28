@@ -1,4 +1,19 @@
 ﻿@model IEnumerable<eTraveller.Models.Location>
+@using Microsoft.AspNetCore.Identity
+@using eTraveller.Models.Enums
+@*To find the user is logged in*@
+@inject SignInManager<IdentityUser> _loginUserStatus
+@*Get the user properties*@
+@inject UserManager<IdentityUser> _userManager
+@{
+    bool isLoggedIn = _loginUserStatus.IsSignedIn(this.User);
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.SysAdmin.ToString());
+    }
+}
 
 @{
     ViewData["Title"] = "Index";
@@ -36,26 +51,29 @@
                 @Html.DisplayNameFor(modelItem => item.Distance) : @item.Distance
                 <br/>
             </div>
-            <div class="card-footer">
-                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.LocationId">Edit</a>
+
+            @if (isUserAdmin)
+            {
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.LocationId">Edit</a>
                 
                 <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.LocationId">Delete</a>
-            </div>
+                </div>
+            }
         </div>
     }
  </div>
+ <div class="row">
+     <div class="col-3">
+        <a class="btn btn-success fa fa-car" style="font-size:15px" asp-controller="Vehicles" asp-action="Index">&nbsp; Vehicle Collection</a>
+     </div>
+     <div class="col-2">
+        <a class="btn btn-success fa fa-address-card" style="font-size:15px" asp-controller="Passengers" asp-action="Create">&nbsp; Book a car</a>
+     </div>
+     <div class="col-1"></div>
+ </div>
 
-
-
-
-
-
-
-
-
-
-
-@*
+   @*
 <table class="table">
     <thead>
         <tr>

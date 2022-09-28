@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eTraveller.Data;
 using eTraveller.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eTraveller.Areas.ETraveller.Controllers
 {
     [Area("ETraveller")]
+    [Authorize]
     public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
