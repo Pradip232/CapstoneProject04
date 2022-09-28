@@ -70,7 +70,7 @@ namespace eTraveller
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -89,7 +89,7 @@ namespace eTraveller
             app.UseRouting();
 
             app.UseAuthentication();
-            //14/09/2022 :: 01:47:30AM
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -106,6 +106,9 @@ namespace eTraveller
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ApplicationDbContextSeed.SeedIdentityUserAsync(userManager).Wait();
+            ApplicationDbContextSeed.SeedIdentityRolesAsync(roleManager).Wait();
         }
     }
 }
