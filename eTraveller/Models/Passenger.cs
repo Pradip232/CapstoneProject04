@@ -35,7 +35,8 @@ namespace eTraveller.Models
 
         [Display(Name = "Age")]
         [Required]
-        [RegularExpression(@"^[1-9]+$", ErrorMessage = "{0} must be positive number only...")]
+        [Range(1,100,ErrorMessage ="Please enter valid age")]
+        //[RegularExpression(@"^[1-9]+$", ErrorMessage = "{0} must be positive number only...")]
         public Int32 Age { get; set; }
 
 

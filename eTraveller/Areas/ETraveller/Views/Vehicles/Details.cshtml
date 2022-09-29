@@ -59,10 +59,11 @@
 <br />
 
 <div>
-    <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.VehicleId">Edit</a> |
+    
     @if (isUserAdmin)
     {
-        <a class="btn btn-success" asp-action="Index">Back to List</a>
+        <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.VehicleId">Edit</a>
     }
+    <a class="btn btn-success" asp-action="Index">Back to List</a>
    
 </div>
