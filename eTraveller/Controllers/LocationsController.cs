@@ -80,10 +80,21 @@ namespace eTraveller.Controllers
         [HttpPost]
         public async Task<ActionResult<Location>> PostLocation(Location location)
         {
-            _context.Locations.Add(location);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Locations.Add(location);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLocation", new { id = location.LocationId }, location);
+                //To enforce that the HTTP responce code '201' "CREATED", package the responce.
+                var result = CreatedAtAction("GetLocation", new { id = location.LocationId }, location);
+
+                return Ok(result);
+            }
+            catch (Exception eo) {
+                ModelState.AddModelError("POST", eo.Message);
+                return BadRequest(ModelState);
+            }
+                  
         }
 
         // DELETE: api/Locations/5
