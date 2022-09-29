@@ -143,52 +143,53 @@
             }
         }
 
-        //function fDelete(categoryIdToDelete) {
+        function fDelete(locationIdToDelete) {
 
-        //    if (!confirm("Are you sure you want to delete?"))
-        //    {
-        //        return;         // exit the function, since user does not want to delete.
-        //    }
+            if (!confirm("Are you sure you want to delete?"))
+            {
+                return;         // exit the function, since user does not want to delete.
+            }
 
-        //    // delete the selected category.
-        //    let data = {
-        //        "id": categoryIdToDelete
-        //    };
-        //    const xmlHttp = new XMLHttpRequest();
-        //    const url = '/api/Categories/' + categoryIdToDelete;        // HTTP REST API DELETE : /api/Categories/2
-        //    xmlHttp.open('DELETE', url);
-        //    xmlHttp.setRequestHeader('content-type', 'application/json');
-        //    xmlHttp.send(JSON.stringify(data));
-        //    xmlHttp.onload = function () {
-        //        let responseObject = JSON.parse(xmlHttp.responseText);
-        //        alert("Successfully Deleted the Category ID: " + responseObject.categoryId);
-        //        fLoadData();
-        //    };
-        //}
+            // delete the selected category.
+            let data = {
+                "id": locationIdToDelete
+            };
+            const xmlHttp = new XMLHttpRequest();
+            const url = '/api/Categories/' + locationIdToDelete;        // HTTP REST API DELETE : /api/Location/2
+            xmlHttp.open('DELETE', url);
+            xmlHttp.setRequestHeader('content-type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+            xmlHttp.onload = function () {
+                let responseObject = JSON.parse(xmlHttp.responseText);
+                alert("Successfully Deleted the Category ID: " + responseObject.locationId);
+                fLoadData();
+            };
+        }
 
-        //// Retreive the Category to edit from the REST API, and pouplate the modal window to show the record to edit.
-        //function fEdit(categoryIdToEdit) {
+        // Retreive the Locations to edit from the REST API, and pouplate the modal window to show the record to edit.
+        function fEdit(locationIdToEdit) {
 
-        //    currentMode = 'EDIT';
+            currentMode = 'EDIT';
 
-        //    let data = {
-        //        "id": categoryIdToEdit
-        //    };
-        //    const xmlHttp = new XMLHttpRequest();
-        //    const url = '/api/Categories/' + categoryIdToEdit;        // HTTP REST API GET : /api/Categories/2
-        //    xmlHttp.open('GET', url);
-        //    xmlHttp.setRequestHeader('content-type', 'application/json');
-        //    xmlHttp.send(JSON.stringify(data));
-        //    xmlHttp.onload = function () {
-        //        let responseObject = JSON.parse(xmlHttp.responseText);
+            let data = {
+                "id": locationIdToEdit
+            };
+            const xmlHttp = new XMLHttpRequest();
+            const url = '/api/Locations/' + locationIdToEdit;        // HTTP REST API GET : /api/Locations/2
+            xmlHttp.open('GET', url);
+            xmlHttp.setRequestHeader('content-type', 'application/json');
+            xmlHttp.send(JSON.stringify(data));
+            xmlHttp.onload = function () {
+                let responseObject = JSON.parse(xmlHttp.responseText);
 
-        //        // populate the input fields in the modal window
-        //        $('#txtCategoryId').val(responseObject.categoryId);
-        //        $('#txtCategoryName').val(responseObject.categoryName);
+                // populate the input fields in the modal window
+                $('#txtLocationId').val(responseObject.locationId);
+                $('#txtLocationName').val(responseObject.locationName);
+                $('#txtDistance').val(responseObject.distance);
 
-        //        $('#myModal').modal("show");
-        //    }
-        //}
+                $('#myModal').modal("show");
+            }
+        }
 
 
         function fDisplayData(theJsonData) {

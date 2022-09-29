@@ -101,16 +101,24 @@ namespace eTraveller.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Location>> DeleteLocation(int id)
         {
-            var location = await _context.Locations.FindAsync(id);
-            if (location == null)
+            try
             {
-                return NotFound();
+
+                var location = await _context.Locations.FindAsync(id);
+                if (location == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Locations.Remove(location);
+                await _context.SaveChangesAsync();
+
+                return Ok(location);
             }
-
-            _context.Locations.Remove(location);
-            await _context.SaveChangesAsync();
-
-            return location;
+            catch (Exception eo) {
+                ModelState.AddModelError("DELETE", eo.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         private bool LocationExists(int id)
