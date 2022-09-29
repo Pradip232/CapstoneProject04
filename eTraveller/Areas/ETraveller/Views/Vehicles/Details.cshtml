@@ -3,11 +3,36 @@
 @{
     ViewData["Title"] = "Details";
 }
+@using Microsoft.AspNetCore.Identity
+@using eTraveller.Models.Enums
+@*To find the user is logged in*@
+@inject SignInManager<IdentityUser> _loginUserStatus
+@*Get the user properties*@
+@inject UserManager<IdentityUser> _userManager
+@{
+    bool isLoggedIn = _loginUserStatus.IsSignedIn(this.User);
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.SysAdmin.ToString());
+    }
+}
 
-<h1>Details</h1>
+@section BodyStyle{
+    <style>
+        body {
+            background-image: url('https://www.freeppt7.com/uploads/190910/1-1Z910195K0P7.JPG');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
+}
+
+<h1>Vehicle Details</h1>
 
 <div>
-    <h4>Vehicle</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -30,7 +55,14 @@
         </dd>
     </dl>
 </div>
+<br />
+<br />
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.VehicleId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.VehicleId">Edit</a> |
+    @if (isUserAdmin)
+    {
+        <a class="btn btn-success" asp-action="Index">Back to List</a>
+    }
+   
 </div>
