@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace eTraveller.Areas.ETraveller.Controllers
 {
     [Area("ETraveller")]
-    [Authorize]
     public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eTraveller.Data;
 using eTraveller.Models;
+using Microsoft.Extensions.Logging;
 
 namespace eTraveller.Controllers
 {
@@ -15,31 +16,53 @@ namespace eTraveller.Controllers
     public class LocationsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(ApplicationDbContext context)
+        public LocationsController(ApplicationDbContext context, ILogger<LocationsController> logger)
         {
+            _logger= logger;
             _context = context;
         }
 
         // GET: api/Locations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
+        public async Task<IActionResult> GetLocations()
         {
-            return await _context.Locations.Include(l=>l.Bookings).ToListAsync();
+            try {
+                var locations = await _context.Locations.Include(l => l.Bookings).ToListAsync();
+
+                if (locations == null)
+                {
+                    return NotFound();
+                }
+                return Ok(locations);
+            }
+            catch (Exception eo) {
+                return BadRequest(eo.Message);
+            }
         }
 
         // GET: api/Locations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(int id)
+        public async Task<IActionResult> GetLocation(int? id)
         {
-            var location = await _context.Locations.FindAsync(id);
-
-            if (location == null)
-            {
-                return NotFound();
+            if (!id.HasValue) {
+                return BadRequest();
             }
+            try
+            {
+                var location = await _context.Locations.FindAsync(id);
 
-            return location;
+                if (location == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(location);
+            }
+            catch (Exception eo) {
+                return BadRequest(eo.Message);
+            }
         }
 
         // PUT: api/Locations/5
@@ -78,7 +101,7 @@ namespace eTraveller.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Location>> PostLocation(Location location)
+        public async Task<IActionResult> PostLocation(Location location)
         {
             try
             {
@@ -99,8 +122,10 @@ namespace eTraveller.Controllers
 
         // DELETE: api/Locations/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Location>> DeleteLocation(int id)
+        public async Task<IActionResult> DeleteLocation(int? id)
         {
+            if(!id.HasValue)
+                return BadRequest();
             try
             {
 
