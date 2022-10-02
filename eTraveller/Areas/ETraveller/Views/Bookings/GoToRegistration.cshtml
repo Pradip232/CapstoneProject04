@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="row">
+    <div class="container">
+        <div class="col-5">
+            <div>
+                <p>
+                    <h4>Hello Dear</h4><br />
+                    To book a car, you nee to provide the basic details. <br />Please provide your additional details.
+                </p>
+                <br />
+                <br />
+                <a class="btn btn-success" asp-controller="Passengers" asp-action="Create">&nbsp Registration</a>
+            </div>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-5">
+            <h3>Regular Customers please go with booking.</h3>
+            <br />
+            <br />
+            <a class="btn btn-outline-success" asp-controller="Bookings" asp-action="Create">&nbsp Book a car </a>
+        </div>
+    </div>
+</div>

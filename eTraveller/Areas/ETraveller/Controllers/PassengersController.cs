@@ -61,7 +61,8 @@ namespace eTraveller.Areas.ETraveller.Controllers
             {
                 _context.Add(passenger);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(actionName: "Create", controllerName: "Bookings", routeValues: new { area = "eTraveller"});
             }
             return View(passenger);
         }

@@ -31,9 +31,12 @@
 
 
 <h1>Available Vehicle</h1>
-<p>
-    <a class="btn btn-success" asp-action="Create">Add new vehicle</a>
-</p>
+@if(isUserAdmin)
+{
+    <p>
+        <a class="btn btn-success" asp-action="Create">Add new vehicle</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -66,7 +69,7 @@
                 <td>
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a>
 @*                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |*@
-                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+                    <a class=" btn btn-danger" asp-action="Delete" asp-route-id="@item.VehicleId">&nbsp Delete</a>
                 </td>
             }
 
@@ -74,3 +77,8 @@
 }
     </tbody>
 </table>
+<br />
+<br />
+<div class="col-3">
+    <a class="btn btn-success fa fa-address-card" style="font-size:15px" asp-controller="Bookings" asp-action="GoToRegistration">&nbsp; Book a car</a>
+</div>

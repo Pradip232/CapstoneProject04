@@ -9,6 +9,9 @@ namespace eTraveller.Models
     [Table("Bookings")]
     public class Booking
     {
+        /// <summary>
+        /// Unique value for each Booking Id
+        /// </summary>
         [Display(Name = "Booking ID")]
         [Key]
         public Int32 BookingId { get; set; }

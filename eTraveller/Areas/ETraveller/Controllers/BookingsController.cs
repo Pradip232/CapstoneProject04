@@ -27,6 +27,12 @@ namespace eTraveller.Areas.ETraveller.Controllers
             var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle);
             return View(await applicationDbContext.ToListAsync());
         }
+
+        public async Task<IActionResult> GoToRegistration()
+        {
+            var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle);
+            return View(await applicationDbContext.ToListAsync());
+        }
         public async Task<IActionResult> Index2()
         {
             var applicationDbContext = _context.Bookings.Include(b => b.Location).Include(b => b.Vehicle);

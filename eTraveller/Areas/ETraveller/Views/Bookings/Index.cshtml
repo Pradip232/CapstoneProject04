@@ -1,5 +1,19 @@
 ﻿@model IEnumerable<eTraveller.Models.Booking>
-
+@using Microsoft.AspNetCore.Identity
+@using eTraveller.Models.Enums
+@*To find the user is logged in*@
+@inject SignInManager<IdentityUser> _loginUserStatus
+@*Get the user properties*@
+@inject UserManager<IdentityUser> _userManager
+@{
+    bool isLoggedIn = _loginUserStatus.IsSignedIn(this.User);
+    bool isUserAdmin = false;
+    IdentityUser user = await _userManager.GetUserAsync(this.User);
+    if (user != null)
+    {
+        isUserAdmin = await _userManager.IsInRoleAsync(user, MyIdentityRoleNames.SysAdmin.ToString());
+    }
+}
 @{
     ViewData["Title"] = "Index";
 }
@@ -17,7 +31,7 @@
 <h1>Bookings</h1>
 
 <p>
-    <button class=" btn btn-primary" asp-action="Create">New Booking</button>
+    <a class=" btn btn-primary" asp-action="Create">New Booking</a>
 </p>
 
 <div class="card-columns">
@@ -39,9 +53,12 @@
                 @Cost
             </div>
             <div class="card-footer">
-                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@booking.BookingId">Edit</a>
-                <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@booking.BookingId">Booking Details</a>
-                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@booking.BookingId">Delete</a>
+                @if (isUserAdmin)
+                {
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@booking.BookingId">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@booking.BookingId">Booking Details</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@booking.BookingId">Delete</a>
+                }
             </div>
         </div>
 
